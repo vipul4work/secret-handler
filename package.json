@@ -1,15 +1,18 @@
 {
-  "name": "secret-handler",
+  "name": "secrets-env-handler",
   "version": "1.0.0",
   "description": "Aws Secrets Handler",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "postbuild": "cp package.json dist",
+    "pub": "npm run build && cd dist && npm publish"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@aws-sdk/client-secrets-manager": "^3.223.0",
+    "@aws-sdk/client-secrets-manager": "3.223.0",
     "aws-sdk": "2.1267.0",
     "dotenv": "16.0.3",
     "lodash": "4.17.21"
