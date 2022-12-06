@@ -13,41 +13,52 @@ await SecretsHandler.init(initFunctions, mapping_filepath);
 // initFunctions = list of init functions to be reloaded after secrets are initialized
 // mapping_filepath = mappings.json file
 //sample mappings.json file => default filepath "secrets_mappings.json"
-
 {
   "stage": {
-    // all secrets are json formatted
-    "secrets": {
-      "dbRead": "stage/db/read",
+    "dbRead": {
+      "type": "secret",
+      "key": "stage/db/read"
     },
-    "env": {}
-  },
-  "prod": {
-    "secrets": {
-      "dbRead": "prod/db/read",
-    },
-    "env": {}
-  },
-  "dev": {
-    "secrets": {},
-    // value is type of key
-    // if json it will do json.parse else it will return as string
-    "env": {
-      "dbRead": "json",
-      "dbWrite": "json",
-      "redis": "json"
+    "logLevel": {
+      "type": "parameter",
+      "key": "LOG_LEVEL",
+      "defaultValue": "all"
     }
   },
-  "default_env": {
-    "PORT": "string",
-    "BULL_SEERVER_PORT": "string",
-    "LOG_LEVEL": "string",
-    "ENV": "string"
+  "prod": {
+    "dbRead": {
+      "type": "secret",
+      "key": "prod/db/read"
+    },
+    "logLevel": {
+      "type": "parameter",
+      "key": "LOG_LEVEL",
+      "defaultValue": "all"
+    }
+  },
+  "dev": {
+    "dbRead": {
+      "type": "parameter",
+      "key": "dbRead",
+      "isJSON": true,
+      "defaultValue": {
+        "host": "localhost",
+        "port": "3306",
+        "username": "dev",
+        "password": "dev"
+      }
+    },
+    "logLevel": {
+      "type": "parameter",
+      "key": "LOG_LEVEL",
+      "defaultValue": "all"
+    }
   }
 }
 
 //Examples
 await SecretsHandler.init([setDbDataSource], "aws-secrets-mappings.json");
 SecretsHandler.secrets().dbWrite.host
-SecretsHandler.secrets().Read.host
+SecretsHandler.secrets().dbRead.host
+SecretsHandler.get("dbRead")
 ```

@@ -3,6 +3,7 @@ import {
   GetSecretValueCommand,
 } from "@aws-sdk/client-secrets-manager";
 import { config } from "dotenv";
+import { isEmpty } from "lodash";
 import { SecretContant } from "./SecretConstants";
 config();
 
@@ -17,11 +18,15 @@ export class SecretsHandler {
     return SecretsHandler.configs;
   }
 
+  static get(key: string) {
+    return SecretsHandler.configs[key];
+  }
+
   private static async refreshConfigKeys() {
 
     for (const key in SecretContant.config().env) {
-      const value = (SecretContant.config().env[key] == "json") ? JSON.parse(process.env[key]) : process.env[key] || "";
-      SecretsHandler.configs[key] = value;
+      const keyConfig = SecretContant.config().env[key];
+      SecretsHandler.configs[key] = SecretsHandler.getValueFromEnv(keyConfig);
     }
 
     for (const key in SecretContant.config().secrets) {
@@ -34,14 +39,22 @@ export class SecretsHandler {
   private static refreshConfigKeysDefault() {
     let config = {};
     for (const key in SecretContant.config().env) {
-      const value = (SecretContant.config().env[key] == "json") ? JSON.parse(process.env[key] || "{}") : process.env[key] || "";
-      config[key] = value;
+      const keyConfig = SecretContant.config().env[key];
+      config[key] = SecretsHandler.getValueFromEnv(keyConfig);
     }
 
     for (const key in SecretContant.config().secrets) {
       config[key] = JSON.parse(process.env[key] || "{}") 
     }
     return config;
+  }
+
+  private static getValueFromEnv(keyConfig: any) {
+    let value = (keyConfig.isJSON) ? JSON.parse(process.env[keyConfig.key] || "{}") : process.env[keyConfig.key] || "";
+    if(isEmpty(value)) {
+      value = keyConfig.defaultValue;
+    }
+    return value;
   }
 
   static async init(initializers = [], filepath = null) {
