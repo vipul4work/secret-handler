@@ -1,10 +1,10 @@
 {
-  "name": "aws-secret-env-mapper",
-  "version": "2.0.0",
+  "name": "env-secrets-handler",
+  "version": "1.0.0",
   "description": "Aws Secrets Handler",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc",
+    "build": "tsc --declaration",
     "postbuild": "cp package.json dist",
     "pub": "npm run build && cd dist && npm publish"
   },
@@ -20,5 +20,9 @@
   "devDependencies": {
     "@types/node": "18.11.10",
     "typescript": "4.9.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vipul4work/secret-handler.git"
   }
 }
