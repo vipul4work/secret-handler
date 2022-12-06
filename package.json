@@ -1,5 +1,5 @@
 {
-  "name": "secrets-env-handler",
+  "name": "aws-secret-env-mapper",
   "version": "1.0.0",
   "description": "Aws Secrets Handler",
   "scripts": {

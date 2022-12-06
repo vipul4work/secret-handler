@@ -1,2 +1,1 @@
-export { SecretContant } from "./SecretConstants";
-export { SecretManager } from "./secret_manager";
+export { SecretsHandler } from "./secrets_handler";

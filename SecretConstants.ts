@@ -1,22 +1,26 @@
 import { isEmpty } from "lodash";
-import fs from "fs";
+import * as fs from "fs";
 
 export class SecretContant {
   private static defaultFile = "./secrets_mappings.json";
   private static configKeys = {};
 
   static config(filepath?: any) {
-    const env: string = process.env.ENV || "local";
+    SecretContant.initConfig(filepath);
+    return SecretContant.configKeys;
+  }
+
+  static initConfig(filepath?: any) {
+    const env: string = process.env.ENV || "dev";
     if (isEmpty(SecretContant.configKeys)) {
-      const rawData = JSON.parse(
+      const rawData = fs.existsSync(filepath) ? JSON.parse(
         fs.readFileSync(filepath || SecretContant.defaultFile).toString("utf-8")
-      );
+      ) : {};
       for (const key in rawData) {
-        SecretContant.configKeys[key] = env == "local"
+        SecretContant.configKeys[key] = (env == "dev")
           ? key
           : rawData[key][env];
       }
     }
-    return SecretContant.configKeys;
   }
 }
