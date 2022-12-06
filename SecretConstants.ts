@@ -11,6 +11,7 @@ export class SecretContant {
   }
 
   static initConfig(filepath?: any) {
+    filepath = filepath || SecretContant.defaultFile;
     const env: string = process.env.ENV || "dev";
     if (isEmpty(SecretContant.configKeys)) {
       const rawData = fs.existsSync(filepath) ? JSON.parse(
