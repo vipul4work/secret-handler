@@ -11,7 +11,7 @@ export class SecretsHandler {
     region: "ap-south-1",
   });
 
-  private static configs: any = {};
+  private static configs: any = SecretsHandler.refreshConfigKeysDefault();
 
   static secrets() {
     return SecretsHandler.configs;
@@ -29,6 +29,19 @@ export class SecretsHandler {
         SecretContant.config().secrets[key]
       );
     }
+  }
+
+  private static refreshConfigKeysDefault() {
+    let config = {};
+    for (const key in SecretContant.config().env) {
+      const value = (SecretContant.config().env[key] == "json") ? JSON.parse(process.env[key] || "{}") : process.env[key] || "";
+      config[key] = value;
+    }
+
+    for (const key in SecretContant.config().secrets) {
+      config[key] = JSON.parse(process.env[key] || "{}") 
+    }
+    return config;
   }
 
   static async init(initializers = [], filepath = null) {
