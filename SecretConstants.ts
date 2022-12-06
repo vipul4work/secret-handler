@@ -27,6 +27,7 @@ export class SecretContant {
           SecretContant.configKeys.env[key] = keyConfig;
         }
       }
+      console.log("Secret KeysMap" ,SecretContant.configKeys);
     }
   }
 }
