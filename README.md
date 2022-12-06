@@ -15,14 +15,35 @@ await SecretsHandler.init(initFunctions, mapping_filepath);
 //sample mappings.json file => default filepath "secrets_mappings.json"
 
 {
-  "dbRead" : {
-    "stage": "stage/db/read",
-    "prod": "prod//db/read"
+  "stage": {
+    // all secrets are json formatted
+    "secrets": {
+      "dbRead": "stage/db/read",
+    },
+    "env": {}
   },
-  "dbWrite" : {
-    "stage": "stage/db/write",
-    "prod": "prod//db/write"
+  "prod": {
+    "secrets": {
+      "dbRead": "prod/db/read",
+    },
+    "env": {}
   },
+  "dev": {
+    "secrets": {},
+    // value is type of key
+    // if json it will do json.parse else it will return as string
+    "env": {
+      "dbRead": "json",
+      "dbWrite": "json",
+      "redis": "json"
+    }
+  },
+  "default_env": {
+    "PORT": "string",
+    "BULL_SEERVER_PORT": "string",
+    "LOG_LEVEL": "string",
+    "ENV": "string"
+  }
 }
 
 //Examples
