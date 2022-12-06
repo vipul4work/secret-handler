@@ -22,12 +22,14 @@ export class SecretContant {
       for (let key in rawData[env]) {
         const keyConfig = rawData[env][key];
         if (keyConfig.type == "secret") {
-          SecretContant.configKeys.secrets[key] = keyConfig.key; 
+          SecretContant.configKeys.secrets[key] = keyConfig.key;
         } else if (keyConfig.type == "parameter") {
           SecretContant.configKeys.env[key] = keyConfig;
         }
       }
-      console.log("Secret KeysMap" ,SecretContant.configKeys);
+      if (process.env.DEBUG == "true") {
+        console.log("Secret KeysMap", SecretContant.configKeys);
+      }
     }
   }
 }

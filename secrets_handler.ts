@@ -44,14 +44,14 @@ export class SecretsHandler {
     }
 
     for (const key in SecretContant.config().secrets) {
-      config[key] = JSON.parse(process.env[key] || "{}") 
+      config[key] = JSON.parse(process.env[key] || "{}")
     }
     return config;
   }
 
   private static getValueFromEnv(keyConfig: any) {
     let value = (keyConfig.isJSON) ? JSON.parse(process.env[keyConfig.key] || "{}") : process.env[keyConfig.key] || "";
-    if(isEmpty(value)) {
+    if (isEmpty(value)) {
       value = keyConfig.defaultValue;
     }
     return value;
