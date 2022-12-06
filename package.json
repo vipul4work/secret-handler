@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc --declaration",
-    "postbuild": "cp package.json dist",
+    "postbuild": "cp package.json README.md dist",
     "pub": "npm run build && cd dist && npm publish"
   },
   "keywords": [],
