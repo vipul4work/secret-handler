@@ -25,6 +25,7 @@ export class SecretsHandler {
   private static async refreshConfigKeys() {
     const env: string = process.env.ENV || "dev";
     const debug: boolean = process.env.DEBUG == "true";
+    const node_env: string = process.env.NODE_ENV ;
 
     for (const key in SecretContant.config().env) {
       const keyConfig = SecretContant.config().env[key];
@@ -38,6 +39,7 @@ export class SecretsHandler {
     }
     SecretsHandler.configs.env = env;
     SecretsHandler.configs.debug = debug;
+    SecretsHandler.configs.node_env = node_env;
     if (debug) {
       console.debug("Secrets", SecretsHandler.configs);
     }
