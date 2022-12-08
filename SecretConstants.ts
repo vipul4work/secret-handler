@@ -27,9 +27,6 @@ export class SecretContant {
           SecretContant.configKeys.env[key] = keyConfig;
         }
       }
-      if (process.env.DEBUG == "true") {
-        console.log("Secret KeysMap", SecretContant.configKeys);
-      }
     }
   }
 }

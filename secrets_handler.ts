@@ -23,6 +23,7 @@ export class SecretsHandler {
   }
 
   private static async refreshConfigKeys() {
+    const env: string = process.env.ENV || "dev";
 
     for (const key in SecretContant.config().env) {
       const keyConfig = SecretContant.config().env[key];
@@ -33,6 +34,10 @@ export class SecretsHandler {
       SecretsHandler.configs[key] = await SecretsHandler.fetchSecretFromAWS(
         SecretContant.config().secrets[key]
       );
+    }
+    SecretsHandler.configs.env = env;
+    if (process.env.DEBUG == "true") {
+      console.debug("Secrets", SecretsHandler.configs);
     }
   }
 
